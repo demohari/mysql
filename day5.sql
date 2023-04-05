@@ -177,6 +177,48 @@ from (select *,
         row_number() over(partition by dept_name order by salary desc) as row_num
     from employees) tmp
 where tmp.row_num = 1;
-sys.types;
+
+select 
+    tmp.*
+from (select *,
+        rank() over(partition by dept_name order by salary desc) as rank_num
+    from employees) tmp
+where tmp.rank_num = 1;
+
+select 
+    tmp.*
+from (select *,
+        DENSE_RANK() over(partition by dept_name order by salary desc) as rank_num
+    from employees) tmp
+where tmp.rank_num = 1;
+where tmp.rank_num = 1;sys.types;
 CREATE TYPE MyCustomType FROM NVARCHAR(255) NOT NULL;
 EXEC GetTablesData @persistData = 'N',@truncateTable = 'N';
+
+select 
+    tmp.*
+from (select *,
+        dense_rank() over(partition by dept_name order by salary desc) as dense_rank_num
+    from employees) tmp
+where tmp.dense_rank_num <= 2;
+
+select 
+    tmp.*
+from (select *,
+        rank() over(partition by dept_name order by salary desc) as rank_num
+    from employees) tmp
+where tmp.rank_num <= 2;
+create table daily_sales
+(
+sales_date date,
+sales_amount int
+);
+
+insert into daily_sales values('2022-03-11',400);
+insert into daily_sales values('2022-03-12',500);
+insert into daily_sales values('2022-03-13',300);
+insert into daily_sales values('2022-03-14',600);
+insert into daily_sales values('2022-03-15',500);
+insert into daily_sales values('2022-03-16',200);
+
+select * from daily_sales;
