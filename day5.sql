@@ -222,3 +222,47 @@ insert into daily_sales values('2022-03-15',500);
 insert into daily_sales values('2022-03-16',200);
 
 select * from daily_sales;
+select *,
+      lag(sales_amount, 1) over(order by sales_date) as pre_day_sales
+from daily_sales;
+select sales_date,
+       sales_amount as curr_day_sales,
+       lag(sales_amount, 1) over(order by sales_date) as prev_day_sales,
+       sales_amount - lag(sales_amount, 1) over(order by sales_date) as sales_diff
+from daily_sales;
+select sales_date,
+       sales_amount as curr_day_sales,
+       lag(sales_amount, 1, 0) over(order by sales_date) as prev_day_sales,
+       sales_amount - lag(sales_amount, 1, 0) over(order by sales_date) as sales_diff
+from daily_sales;
+
+select *,
+      lag(sales_amount, 1) over(order by sales_date) as pre_day_sales
+from daily_sales;
+
+select *,
+      lead(sales_amount, 1) over(order by sales_date) as next_day_sales
+from daily_sales;
+
+select *,
+      lead(sales_amount, 1,0) over(order by sales_date) as next_day_sales
+from daily_sales;
+select * from daily_sales;
+select *,
+      sum(sales_amount) over(order by sales_date rows between 1 preceding and 1 following) as prev_plus_next_sales_sum
+from daily_sales;
+select *,
+      sum(sales_amount) over(order by sales_date rows between 0 preceding and 1 following) as prev_plus_next_sales_sum
+from daily_sales;
+select *,
+      sum(sales_amount) over(order by sales_date rows between 0 preceding and 0 following) as prev_plus_next_sales_sum
+from daily_sales;
+select *,
+      sum(sales_amount) over(order by sales_date rows between 1 preceding and current row) as prev_plus_next_sales_sum
+from daily_sales;
+select *,
+      sum(sales_amount) over(order by sales_date rows between current row and 1 following) as prev_plus_next_sales_sum
+from daily_sales;
+select *,
+      sum(sales_amount) over(order by sales_date rows between 2 preceding and 1 following) as prev_plus_next_sales_sum
+from daily_sales;
